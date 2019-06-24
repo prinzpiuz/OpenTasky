@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Task</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="">users</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Assign Task</h1>
+        <form action='/admin/assigned' method='POST'>
+            <label>user</label>
+            <input type='text' name='user'></br>
+            <label>Today's Task</label>
+            <input type='text' name='task'></br>
+            <label>References</label>
+            <input type='text' name='refernce'></br>
+            <button type='submit'>submit</button>
+        </form>
+    </main>
+</body>
+
+</html>
