@@ -16,6 +16,14 @@ exports.getTaskAssign = (req, res, next) => {
 };
 
 exports.getTaskAssigned = (req, res, next) => {
-    task_added = Task.getData();
-    res.render('admin', { task_added: task_added, title: "Admin", url1: { link: "", title: "users" }, url2: { link: "/admin/add-task", title: "Add Task" }});
+    Task.getData(task_added =>{
+        res.render('admin',
+        {
+            task_added: task_added,
+            title: "Admin",
+            url1: { link: "", title: "users" },
+            url2: { link: "/admin/add-task", title: "Add Task" }
+        });
+    });
+
 };
