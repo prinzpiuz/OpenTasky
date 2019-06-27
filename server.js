@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/admin',adminData.routes);
 app.use(userRoutes);
 app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'templates', 'pageNotFound.html'));
+    res.status(404).render('404', { url1: { link: "/", title: "Home" }});
 });
 
 app.listen(3000);

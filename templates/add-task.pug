@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Add Task
+    body
+        header
+            nav
+                ul
+                    li
+                        a(href="") users
+        main
+            h1 Assign Task
+            form(method='POST', action='/admin/assigned')
+                label user
+                input(type='text' name='user')
+                br
+                label Today's Task
+                input(type='text' name='task')
+                br
+                label Reference
+                input(type='text' name='reference')
+                br
+                button(type="submit") Submit
