@@ -2,6 +2,7 @@ const tasks = []
 
 const fs = require('fs');
 const path = require('path');
+const uuidV4 = require('uuid/v4');
 
 const p = path.join(
     path.dirname(process.mainModule.filename),
@@ -22,13 +23,14 @@ const getFileData = cb => {
 
 module.exports = class Task {
     constructor (task,user,ref) {
+        this.id = uuidV4();
         this.task = task;
         this.user = user;
         this.reference = ref;
     }
     save () {
         getFileData(tasks =>{
-            tasks.push({ user: this.user, task: this.task, reference: this.reference });
+            tasks.push({ id:this.id, user: this.user, task: this.task, reference: this.reference });
             fs.writeFile(p, JSON.stringify(tasks), err => {
                 console.log(err);
             });
