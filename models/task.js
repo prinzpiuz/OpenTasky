@@ -41,4 +41,10 @@ module.exports = class Task {
         getFileData(cb);
     }
 
+    static findTask (val, cb) {
+        getFileData(tasks => {
+            cb(tasks.find(id => id.id === val ));
+        });
+    }
+
 }

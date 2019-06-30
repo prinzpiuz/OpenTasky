@@ -10,4 +10,7 @@ router.post('/assigned', taskController.getTaskAssign);
 
 router.get('/', taskController.getTaskAssigned);
 
+router.get('/details/:uid', taskController.getTaskDetail);
+
+
 exports.routes = router;

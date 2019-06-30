@@ -25,5 +25,24 @@ exports.getTaskAssigned = (req, res, next) => {
             url2: { link: "/admin/add-task", title: "Add Task" }
         });
     });
+};
 
+
+exports.getTaskDetail = (req, res, next) => {
+    id = req.params.uid;
+    Task.findTask(id, task => {
+        if (task === undefined){
+            res.status(404).render('404', { url1: { link: "/admin", title: "Go back" } });
+        }
+        else {
+        res.render('detail', {
+            task: task,
+            title: "Detail",
+            url1: {
+                link: "/admin/",
+                title: "Go back"
+            }
+        });
+    }
+    });
 };
