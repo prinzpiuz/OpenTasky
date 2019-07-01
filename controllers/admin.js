@@ -12,7 +12,13 @@ exports.getTaskAssign = (req, res, next) => {
     let ref = req.body['reference'];
     const tasks = new Task(task, user, ref)
     tasks.save();
-    res.render('assign', { user: user, task: task });
+    res.render('assign', {
+        user: user,
+        task: task,
+        title: "Assign",
+        url1: { link: "/admin", title: "users" },
+        url2: { link: "/admin/add-task", title: "Add Task" }
+    });
 };
 
 exports.getTaskAssigned = (req, res, next) => {
@@ -46,3 +52,10 @@ exports.getTaskDetail = (req, res, next) => {
     }
     });
 };
+
+
+exports.getTaskDelete = (req, res, next) => {
+    id = req.params.uid;
+    Task.deleteTask(id);
+    res.redirect('/admin/');
+}

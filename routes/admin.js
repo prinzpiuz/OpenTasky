@@ -12,5 +12,7 @@ router.get('/', taskController.getTaskAssigned);
 
 router.get('/details/:uid', taskController.getTaskDetail);
 
+router.get('/delete/:uid', taskController.getTaskDelete);
+
 
 exports.routes = router;
