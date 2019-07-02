@@ -6,3 +6,7 @@ block content
         h3 ID: #{task.id}
         h3  task:  #{task.task}
         h3  reference: #{task.reference}
+        h3
+            a(href='/admin/edit/' + task.id + '/?edit=true') edit
+        h3
+            a(href='/admin/delete/' + task.id) delete

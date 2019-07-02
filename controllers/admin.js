@@ -56,6 +56,7 @@ exports.getTaskDetail = (req, res, next) => {
 
 exports.getTaskDelete = (req, res, next) => {
     id = req.params.uid;
+    console.error(id);
     Task.deleteTask(id);
-    res.redirect('/admin/');
-}
+    res.redirect('/');
+};
