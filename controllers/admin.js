@@ -3,14 +3,18 @@ const Task = require('../models/task');
 
 
 exports.getAddTask = (req, res, next) => {
-    res.render('add-task');
+    res.render('add-task', {
+        title: "Add Task",
+        edit: false
+    }
+    );
 };
 
 exports.getTaskAssign = (req, res, next) => {
     let user = req.body['user'];
     let task = req.body['task'];
     let ref = req.body['reference'];
-    const tasks = new Task(task, user, ref)
+    const tasks = new Task(null, task, user, ref)
     tasks.save();
     res.render('assign', {
         user: user,
@@ -33,6 +37,34 @@ exports.getTaskAssigned = (req, res, next) => {
     });
 };
 
+exports.getTaskEdit = (req, res, next) => {
+    const edit = req.query.edit;
+    const id = req.params.uid;
+    Task.findTask(id, task => {
+        res.render('add-task',
+            {
+                edit: edit,
+                task : task,
+                tittle: "Edit Task",
+                url1: {
+                    link: "/admin/",
+                    title: "Go back"
+                }
+            }
+        );
+    });
+
+};
+
+exports.postEditTask = (req, res, next) => {
+    let user = req.body['user'];
+    let task = req.body['task'];
+    let ref = req.body['reference'];
+    let id = req.body['id'];
+    const taskedited = new Task(id, task, user, ref)
+    taskedited.save();
+    res.redirect('/admin');
+};
 
 exports.getTaskDetail = (req, res, next) => {
     id = req.params.uid;
@@ -56,7 +88,6 @@ exports.getTaskDetail = (req, res, next) => {
 
 exports.getTaskDelete = (req, res, next) => {
     id = req.params.uid;
-    console.error(id);
     Task.deleteTask(id);
     res.redirect('/');
 };

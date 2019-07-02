@@ -14,6 +14,8 @@ router.get('/details/:uid', taskController.getTaskDetail);
 
 router.get('/delete/:uid', taskController.getTaskDelete);
 
+router.post('/edit-complete', taskController.postEditTask);
+
 router.get('/edit/:uid', taskController.getTaskEdit);
 
 exports.routes = router;

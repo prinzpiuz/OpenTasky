@@ -1,26 +1,20 @@
-<!DOCTYPE html>
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        meta(http-equiv="X-UA-Compatible", content="ie=edge")
-        title Add Task
-    body
-        header
-            nav
-                ul
-                    li
-                        a(href="") users
-        main
+extends layouts/base.pug
+
+block content
+    main
+        if edit
+            h1 Edit Task
+        else
             h1 Assign Task
-            form(method='POST', action='/admin/assigned')
-                label user
-                input(type='text' name='user')
-                br
-                label Today's Task
-                input(type='text' name='task')
-                br
-                label Reference
-                input(type='text' name='reference')
-                br
-                button(type="submit") Submit
+        form(method='POST', action=(edit ? '/admin/edit-complete':'/admin/assigned'))
+            label user
+            input(type='text' name='user' value=(edit ? task.user : ''))
+            br
+            label Today's Task
+            input(type='text' name='task' value=(edit ? task.task : ''))
+            br
+            label Reference
+            input(type='text' name='reference' value=(edit ? task.reference : ''))
+            br
+            input(type='hidden' name='id' value=(edit ? task.id : ''))
+            button(type="submit") Submit

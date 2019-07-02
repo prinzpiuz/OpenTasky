@@ -22,8 +22,8 @@ const getFileData = cb => {
 }
 
 module.exports = class Task {
-    constructor (task,user,ref) {
-        this.id = uuidV4();
+    constructor (id,task,user,ref) {
+        this.id = id;
         this.task = task;
         this.user = user;
         this.reference = ref;
@@ -31,20 +31,24 @@ module.exports = class Task {
     save () {
         getFileData(tasks =>{
             if (this.id) {
-                taskIndex = tasks.findIndex(id => id.id == this.id);
-                updateTask = [...tasks];
-                updateTask[taskIndex] = this;
-                fs.writeFile(p, JSON.stringify(tasks), err => {
+            const existingTaskIndex = tasks.findIndex(
+                    id => id.id === this.id
+                );
+                const updatedTask = [...tasks];
+                updatedTask[existingTaskIndex] = this;
+                fs.writeFile(p, JSON.stringify(updatedTask), err => {
                     console.log(err);
                 });
             }
             else {
+            this.id = uuidV4();
             tasks.push({ id:this.id, user: this.user, task: this.task, reference: this.reference });
             fs.writeFile(p, JSON.stringify(tasks), err => {
                 console.log(err);
             });
         }
         });
+
     }
     static getData (cb) {
         getFileData(cb);
@@ -56,7 +60,7 @@ module.exports = class Task {
         });
     }
 
-    static deleteTask (val, cb) {
+    static deleteTask (val) {
         getFileData(tasks => {
         const task = tasks.find(id => id.id === val);
         const updatedList = tasks.filter(id => id.id !== val);
