@@ -14,26 +14,37 @@ exports.getTaskAssign = (req, res, next) => {
     let user = req.body['user'];
     let task = req.body['task'];
     let ref = req.body['reference'];
-    const tasks = new Task(null, task, user, ref)
-    tasks.save();
-    res.render('assign', {
+    Task.create({
         user: user,
         task: task,
-        title: "Assign",
-        url1: { link: "/admin", title: "users" },
-        url2: { link: "/admin/add-task", title: "Add Task" }
+        reference: ref
+    })
+    .then(result => {
+        console.log('created');
+        res.render('assign', {
+            user: user,
+            task: task,
+            title: "Assign",
+            url1: { link: "/admin", title: "users" },
+            url2: { link: "/admin/add-task", title: "Add Task" }
+        });
+    })
+    .catch(err => {
+        console.log(err);
     });
+
 };
 
 exports.getTaskAssigned = (req, res, next) => {
-    Task.getData(task_added =>{
+    Task.findAll().then(task => {
+        console.log(task);
         res.render('admin',
-        {
-            task_added: task_added,
-            title: "Admin",
-            url1: { link: "", title: "users" },
-            url2: { link: "/admin/add-task", title: "Add Task" }
-        });
+            {
+                task_added: task,
+                title: "Admin",
+                url1: { link: "", title: "users" },
+                url2: { link: "/admin/add-task", title: "Add Task" }
+            });
     });
 };
 
