@@ -10,7 +10,7 @@ block content
                 th details
             each task in task_added
                 tr
-                    td #{task.user}
+                    td #{task.userName}
                     td #{task.task}
                     td
                         a(href='/admin/details/' + task.id) details

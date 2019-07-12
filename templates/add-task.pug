@@ -7,8 +7,10 @@ block content
         else
             h1 Assign Task
         form(method='POST', action=(edit ? '/admin/edit-complete':'/admin/assigned'))
-            label user
-            input(type='text' name='user' value=(edit ? task.user : ''))
+            label select user
+            select(name='user-id')
+                each user in users
+                    option(value=user.id) #{user.name}
             br
             label Today's Task
             input(type='text' name='task' value=(edit ? task.task : ''))

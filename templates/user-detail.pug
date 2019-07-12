@@ -1,0 +1,10 @@
+extends layouts/base.pug
+
+block content
+    body
+        h1 #{user.name}
+        h3 Email: #{user.email}
+        h3
+            a(href='/admin/edit/' + user.id + '/?edit=true') edit
+        h3
+            a(href='/admin/delete/' + user.id) delete

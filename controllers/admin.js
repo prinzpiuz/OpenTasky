@@ -1,28 +1,33 @@
 const Task = require('../models/task');
+const User = require('../models/user');
 
 
 
 exports.getAddTask = (req, res, next) => {
-    res.render('add-task', {
-        title: "Add Task",
-        edit: false
-    }
-    );
+    User.findAll().then(users => {
+        res.render('add-task', {
+
+            users: users,
+            title: "Add Task",
+            edit: false
+        }
+        );
+    });
+
 };
 
 exports.getTaskAssign = (req, res, next) => {
-    let user = req.body['user'];
+    let id = req.body['user-id'];
     let task = req.body['task'];
     let ref = req.body['reference'];
-    Task.create({
-        user: user,
-        task: task,
-        reference: ref
-    })
-    .then(result => {
-        console.log('created');
+    User.findByPk(id).then(user =>{
+        user.createTask({
+            userName: user.name,
+            task: task,
+            reference: ref
+        })
         res.render('assign', {
-            user: user,
+            user: user.name,
             task: task,
             title: "Assign",
             url1: { link: "/admin", title: "users" },
@@ -37,49 +42,59 @@ exports.getTaskAssign = (req, res, next) => {
 
 exports.getTaskAssigned = (req, res, next) => {
     Task.findAll().then(task => {
-        console.log(task);
         res.render('admin',
             {
                 task_added: task,
                 title: "Admin",
-                url1: { link: "", title: "users" },
+                url1: { link: "/admin/add-user", title: "add-user" },
                 url2: { link: "/admin/add-task", title: "Add Task" }
             });
     });
 };
 
+
 exports.getTaskEdit = (req, res, next) => {
     const edit = req.query.edit;
     const id = req.params.uid;
-    Task.findTask(id, task => {
-        res.render('add-task',
-            {
-                edit: edit,
-                task : task,
-                tittle: "Edit Task",
-                url1: {
-                    link: "/admin/",
-                    title: "Go back"
+    Task.findByPk(id).then( task => {
+        User.findAll().then(user => {
+            res.render('add-task',
+                {
+                    users: user,
+                    edit: edit,
+                    task: task,
+                    tittle: "Edit Task",
+                    url1: {
+                        link: "/admin/",
+                        title: "Go back"
+                    }
                 }
-            }
-        );
+            );
+        })
     });
 
 };
 
 exports.postEditTask = (req, res, next) => {
-    let user = req.body['user'];
+    let id = req.body['user-id'];
     let task = req.body['task'];
     let ref = req.body['reference'];
-    let id = req.body['id'];
-    const taskedited = new Task(id, task, user, ref)
-    taskedited.save();
-    res.redirect('/admin');
-};
+    let task_id = req.body['id'];
+    User.findByPk(id).then(user => {
+        Task.findByPk(task_id).then(taskEdit => {
+        taskEdit.userId = user.id;
+        taskEdit.userName = user.name;
+        taskEdit.task = task;
+        taskEdit.ref = ref;
+        return taskEdit.save();
+    })}).then(
+        res.redirect('/admin')
+    );
+        };
 
 exports.getTaskDetail = (req, res, next) => {
     id = req.params.uid;
-    Task.findTask(id, task => {
+    Task.findByPk(id).then( task => {
         if (task === undefined){
             res.status(404).render('404', { url1: { link: "/admin", title: "Go back" } });
         }
@@ -99,6 +114,63 @@ exports.getTaskDetail = (req, res, next) => {
 
 exports.getTaskDelete = (req, res, next) => {
     id = req.params.uid;
-    Task.deleteTask(id);
-    res.redirect('/');
+    Task.findByPk(id).then(task =>{
+        task.destroy();
+    }).then(
+        res.redirect('/')
+    );
+};
+
+exports.getAddUser = (req, res, next) => {
+    res.render('add-user', {
+        title: "Add User",
+        edit: false
+    });
+};
+
+exports.getUserAdded = (req, res, next) => {
+    let name = req.body['name'];
+    let email = req.body['email'];
+    User.create({
+        name: name,
+        email: email
+    }).then(
+        res.render('user-added', {
+            user: name,
+            title: "User-Added",
+            url1: { link: "/admin/list-users", title: "list-users" },
+            url2: { link: "/admin/add-task", title: "Add Task" }
+        })
+    );
+};
+
+exports.getListUser = (req, res, next) => {
+    User.findAll().then(user => {
+        res.render('users',
+            {
+                users: user,
+                title: "users",
+                url1: { link: "/admin/add-user", title: "add-user" },
+                url2: { link: "/admin/add-task", title: "Add Task" }
+            });
+    });
+};
+
+exports.getUserDetail = (req, res, next) => {
+    id = req.params.uid;
+    User.findByPk(id).then(user => {
+        if (user === undefined) {
+            res.status(404).render('404', { url1: { link: "/admin", title: "Go back" } });
+        }
+        else {
+            res.render('user-detail', {
+                user: user,
+                title: "Detail",
+                url1: {
+                    link: "/admin/",
+                    title: "Go back"
+                }
+            });
+        }
+    });
 };

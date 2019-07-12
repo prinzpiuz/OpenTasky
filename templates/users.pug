@@ -2,4 +2,14 @@ extends layouts/base.pug
 
 block content
     main
-        h1 your tasks for today
+        h1 Users
+        table
+            tr
+                th user
+                th email
+            each user in users
+                tr
+                    td #{user.name}
+                    td #{user.email}
+                    td
+                        a(href='/admin/user-detail/' + user.id) details

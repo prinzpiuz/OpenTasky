@@ -2,19 +2,15 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../util/db');
 
-const Task = sequelize.define('task', {
+const User = sequelize.define('user', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    userName: Sequelize.STRING,
-    task: Sequelize.STRING,
-    reference: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }
+    name: Sequelize.STRING,
+    email: Sequelize.STRING
 });
 
-module.exports = Task;
+module.exports = User;
