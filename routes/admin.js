@@ -18,6 +18,10 @@ router.get('/edit/user/:uid',taskController.getUserEdit);
 
 router.post('/assigned', taskController.getTaskAssign);
 
+router.get('/user/tasks/:uid', taskController.getAllTaskUser);
+
+router.post('/start/:task_id', taskController.getTaskStart);
+
 router.get('/', taskController.getTaskAssigned);
 
 router.get('/user-detail/:uid', taskController.getUserDetail);

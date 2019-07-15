@@ -9,6 +9,12 @@ const Task = sequelize.define('task', {
         allowNull: false,
         primaryKey: true
     },
+    status: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    start_date: Sequelize.DATE,
+    completed_date: Sequelize.DATE,
     userName: Sequelize.STRING,
     task: Sequelize.STRING,
     reference: {
@@ -18,3 +24,8 @@ const Task = sequelize.define('task', {
 });
 
 module.exports = Task;
+
+//status
+//0=not started
+//1=started
+//2=completed

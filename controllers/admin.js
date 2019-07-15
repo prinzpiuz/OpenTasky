@@ -24,7 +24,8 @@ exports.getTaskAssign = (req, res, next) => {
         user.createTask({
             userName: user.name,
             task: task,
-            reference: ref
+            reference: ref,
+            status: 0,
         })
         res.render('assign', {
             user: user.name,
@@ -41,17 +42,34 @@ exports.getTaskAssign = (req, res, next) => {
 };
 
 exports.getTaskAssigned = (req, res, next) => {
-    Task.findAll().then(task => {
+    User.findAll().then(user => {
         res.render('admin',
             {
-                task_added: task,
+                users: user,
                 title: "Admin",
                 url1: { link: "/admin/add-user", title: "add-user" },
-                url2: { link: "/admin/add-task", title: "Add Task" }
+                url2: { link: "/admin/add-task", title: "Add Task" },
+                url3: { link: "/admin/list-users", title: "List users" }
             });
     });
 };
 
+exports.getAllTaskUser = (req, res, next) => {
+    Task.findAll({
+        include: [
+            { model: User, where: { id: req.params.uid } }
+        ]
+    }).then(task_added => {
+        res.render('user-tasks',
+            {
+                task_added: task_added,
+                title: "Admin",
+                url1: { link: "/admin/add-user", title: "add-user" },
+                url2: { link: "/admin/add-task", title: "Add Task" },
+                url3: { link: "/admin/list-users", title: "List users" }
+            });
+    });
+};
 
 exports.getTaskEdit = (req, res, next) => {
     const edit = req.query.edit;
@@ -193,7 +211,6 @@ exports.getUserEdit = (req, res, next) => {
         });
 };
 
-
 exports.getUserEdit_done = (req, res, next) => {
     let id = req.body['id'];
     let username = req.body['name'];
@@ -206,3 +223,13 @@ exports.getUserEdit_done = (req, res, next) => {
         res.redirect('/admin/list-users')
     );
 };
+
+
+// exports.getTaskStart = (req, res, next) => {
+//     start_date = new Date();
+//     let id = req.params.task_id;
+//     Task.findByPk(id).then(task => {
+//         task.status = 1,
+//         task.start_date = start_date,
+//         return taskEdit.save()
+

@@ -6,11 +6,8 @@ block content
         table
             tr
                 th user
-                th tasks
-                th details
-            each task in task_added
+            each user in users
                 tr
-                    td #{task.userName}
-                    td #{task.task}
+                    td #{user.name}
                     td
-                        a(href='/admin/details/' + task.id) details
+                        a(href='/admin/user/tasks/' + user.id) Tasks
