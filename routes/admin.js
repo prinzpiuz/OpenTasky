@@ -12,6 +12,10 @@ router.get('/list-users', taskController.getListUser);
 
 router.post('/user-added', taskController.getUserAdded);
 
+router.post('/edit-user-done', taskController.getUserEdit_done);
+
+router.get('/edit/user/:uid',taskController.getUserEdit);
+
 router.post('/assigned', taskController.getTaskAssign);
 
 router.get('/', taskController.getTaskAssigned);

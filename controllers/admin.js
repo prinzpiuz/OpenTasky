@@ -174,3 +174,35 @@ exports.getUserDetail = (req, res, next) => {
         }
     });
 };
+
+exports.getUserEdit = (req, res, next) => {
+    const edit = req.query.edit;
+    const id = req.params.uid;
+    User.findByPk(id).then(user => {
+            res.render('add-user',
+                {
+                    users: user,
+                    edit: edit,
+                    tittle: "Edit User",
+                    url1: {
+                        link: "/admin/list-users",
+                        title: "Go back"
+                    }
+                }
+            );
+        });
+};
+
+
+exports.getUserEdit_done = (req, res, next) => {
+    let id = req.body['id'];
+    let username = req.body['name'];
+    let email = req.body['email'];
+    User.findByPk(id).then(user => {
+        user.name = username;
+            user.email = email;
+            return user.save();
+        }).then(
+        res.redirect('/admin/list-users')
+    );
+};

@@ -8,10 +8,10 @@ block content
             h1 Add User
         form(method='POST', action=(edit ? '/admin/edit-user-done':'/admin/user-added'))
             label name
-            input(type='text' name='name' value=(edit ? user.name : ''))
+            input(type='text' name='name' value=(edit ? users.name : ''))
             br
             label email
-            input(type='text' name='email' value=(edit ? user.email : ''))
+            input(type='text' name='email' value=(edit ? users.email : ''))
             br
-            input(type='hidden' name='id' value=(edit ? user.id : ''))
+            input(type='hidden' name='id' value=(edit ? users.id : ''))
             button(type="submit") Submit
