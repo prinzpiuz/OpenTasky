@@ -224,12 +224,28 @@ exports.getUserEdit_done = (req, res, next) => {
     );
 };
 
+exports.getTaskStart = (req, res, next) => {
+    start_date = new Date();
+    let id = req.body['taskId'];
+    let userId = req.body['userId'];
+    Task.findByPk(id).then(task => {
+        task.status = 1;
+        task.start_date = start_date;
+        return task.save();
+    }).then(
+        res.redirect('/admin/user/tasks/' + userId)
+    );
+};
 
-// exports.getTaskStart = (req, res, next) => {
-//     start_date = new Date();
-//     let id = req.params.task_id;
-//     Task.findByPk(id).then(task => {
-//         task.status = 1,
-//         task.start_date = start_date,
-//         return taskEdit.save()
-
+exports.getTaskComplete = (req, res, next) => {
+    completed_date = new Date();
+    let id = req.body['taskId'];
+    let userId = req.body['userId'];
+    Task.findByPk(id).then(task => {
+        task.status = 2;
+        task.completed_date = completed_date;
+        return task.save();
+    }).then(
+        res.redirect('/admin/user/tasks/' + userId)
+    );
+};

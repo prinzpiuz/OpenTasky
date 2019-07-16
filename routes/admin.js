@@ -1,8 +1,11 @@
 const express = require('express');
-const path = require('path');
 const router = express.Router();
 
 const taskController = require('../controllers/admin');
+
+router.post('/start', taskController.getTaskStart);
+
+router.post('/complete', taskController.getTaskComplete);
 
 router.get('/add-user', taskController.getAddUser);
 
@@ -19,8 +22,6 @@ router.get('/edit/user/:uid',taskController.getUserEdit);
 router.post('/assigned', taskController.getTaskAssign);
 
 router.get('/user/tasks/:uid', taskController.getAllTaskUser);
-
-router.post('/start/:task_id', taskController.getTaskStart);
 
 router.get('/', taskController.getTaskAssigned);
 
