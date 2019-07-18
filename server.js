@@ -2,6 +2,8 @@ const path = require('path');
 // third party
 const express = require('express');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+var PostgreSqlStore = require('connect-pg-simple')(session);
 
 const app = express();
 
@@ -18,6 +20,21 @@ app.set('views', 'templates');
 app.use(bodyParser.urlencoded({extented: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(
+    session({
+        secret: 'my secret',
+        resave: false,
+        saveUninitialized: false,
+        store: new PostgreSqlStore({
+            /*
+            connection string is built by following the syntax:
+            postgres://USERNAME:PASSWORD@HOST_NAME:PORT/DB_NAME
+            */
+            conString: "postgres://task:task@localhost:5432/task"
+        })
+    })
+);
+
 app.use('/admin',adminData.routes);
 app.use(userRoutes);
 app.use((req, res, next) => {
@@ -30,7 +47,6 @@ User.hasMany(Task);
 sequelize
     .sync()
     .then(result => {
-        // console.log(result);
         app.listen(3000);
     })
     .catch(err => {
