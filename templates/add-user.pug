@@ -13,5 +13,10 @@ block content
             label email
             input(type='text' name='email' value=(edit ? users.email : ''))
             br
+            label role
+                select(name="role")
+                    option(value=0) user
+                    option(value=1) admin
             input(type='hidden' name='id' value=(edit ? users.id : ''))
+            br
             button(type="submit") Submit

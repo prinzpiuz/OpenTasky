@@ -9,6 +9,7 @@ const app = express();
 
 const adminData = require('./routes/admin');
 const userRoutes = require('./routes/user');
+const authRoutes = require('./routes/auth');
 const sequelize = require('./util/db');
 const Task = require('./models/task');
 const User = require('./models/user');
@@ -37,8 +38,26 @@ app.use(
 
 app.use('/admin',adminData.routes);
 app.use(userRoutes);
+app.use(authRoutes);
 app.use((req, res, next) => {
     res.status(404).render('404', { url1: { link: "/", title: "Home" }});
+});
+
+app.use((req, res, next) => {
+    if (!req.session.user) {
+        return next();
+    }
+    User.findByPk(req.session.user.id)
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => console.log(err));
+});
+
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    next();
 });
 
 Task.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
@@ -48,6 +67,20 @@ sequelize
     .sync()
     .then(result => {
         app.listen(3000);
+        User.findAll({
+            where: {
+                role: 1
+            }}).then(user=>{
+                if(!user[0]){
+                    User.create({
+                        name: 'admin',
+                        email: 'admin@admin.com',
+                        role: 1,
+                        password: 'admin',
+                        status: 1
+                }).then(console.log('admin created'));
+            }
+            });
     })
     .catch(err => {
         console.log(err);

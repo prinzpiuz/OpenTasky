@@ -149,9 +149,13 @@ exports.getAddUser = (req, res, next) => {
 exports.getUserAdded = (req, res, next) => {
     let name = req.body['name'];
     let email = req.body['email'];
+    let role = req.body['role'];
     User.create({
         name: name,
-        email: email
+        email: email,
+        role: role,
+        password: 'test',
+        status: 0
     }).then(
         res.render('user-added', {
             user: name,
@@ -215,8 +219,10 @@ exports.getUserEdit_done = (req, res, next) => {
     let id = req.body['id'];
     let username = req.body['name'];
     let email = req.body['email'];
+    let role = req.body['role'];
     User.findByPk(id).then(user => {
         user.name = username;
+            user.role = role;
             user.email = email;
             return user.save();
         }).then(
