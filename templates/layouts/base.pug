@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        if title
+            title #{title}
+    body
+        header
+            nav
+                ul
+                    if url1
+                        li
+                            a(href=url1.link) #{url1.title}
+                    if url2
+                        li
+                            a(href=url2.link) #{url2.title}
+                    if url3
+                        li
+                            a(href=url3.link) #{url3.title}
+        block content

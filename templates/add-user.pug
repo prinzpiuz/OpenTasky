@@ -1,0 +1,22 @@
+extends layouts/base.pug
+
+block content
+    main
+        if edit
+            h1 Edit User
+        else
+            h1 Add User
+        form(method='POST', action=(edit ? '/admin/edit-user-done':'/admin/user-added'))
+            label name
+            input(type='text' name='name' value=(edit ? users.name : ''))
+            br
+            label email
+            input(type='text' name='email' value=(edit ? users.email : ''))
+            br
+            label role
+                select(name="role")
+                    option(value=0) user
+                    option(value=1) admin
+            input(type='hidden' name='id' value=(edit ? users.id : ''))
+            br
+            button(type="submit") Submit

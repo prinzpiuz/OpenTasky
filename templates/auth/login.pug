@@ -1,0 +1,13 @@
+extends ../layouts/base.pug
+
+block content
+    main
+        h1 Login
+        form(method='POST', action=('/login'))
+            label email
+            input(type='text' name='email')
+            br
+            label password
+            input(type='text' name='password')
+            br
+            button(type="submit") login
