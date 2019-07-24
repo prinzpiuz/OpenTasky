@@ -1,0 +1,16 @@
+block content
+    main
+        h1 Complete Signup
+        form(method='POST', action=('/signup'))
+            label username
+            input(type='text' name='name')
+            br
+            label password
+            input(type='text' name='password1')
+            br
+            label RepeatPassword
+            input(type='text' name='password2')
+            br
+            input(type='hidden' name='id' value=(userId))
+            br
+            button(type="submit") Complete Signup
