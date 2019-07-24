@@ -13,6 +13,6 @@ router.post('/login', authController.postLogin);
 
 router.post('/signup', authController.postSignup);
 
-// router.post('/logout', authController.postLogout);
+router.post('/logout', authController.postLogout);
 
 module.exports = router;

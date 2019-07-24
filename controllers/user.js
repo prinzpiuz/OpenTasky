@@ -1,3 +1,5 @@
 exports.getUserDetail = (req, res, next) => {
-    res.render('user-home', { title: "User", url1: { link: "", title: "users" }, url2: { link: "", title: "completed" } });
+    res.render('user-home', { title: "User", 
+    url1: { link: "/login", title: "login" },
+    url2: { link: "/logout", title: "logout" } });
 };
