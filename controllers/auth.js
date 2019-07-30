@@ -22,16 +22,20 @@ exports.postLogin = (req, res, next) => {
         if(!user[0]){
             return res.redirect('/login');
         }
-
+        if(user[0].status===0){
+            return res.redirect('/checkEmail');
+        }
         if(user[0].password === password){
             req.session.isLoggedIn = true;
             req.session.user = user;
             return req.session.save(err => {
                 console.log(err);
-                if(user.role === 0){
+                if(user[0].role === 0){
                     res.redirect('/');
                 }
-                res.redirect('/admin');
+                if(user[0].role === 1){
+                    res.redirect('/admin');
+                }
             });
         }
         res.redirect('/login');
@@ -77,6 +81,7 @@ exports.postSignup = (req, res, next) => {
         User.findByPk(userID).then(user=>{
             user.name = name;
             user.password = password1;
+            user.status = 1;
             return user.save();
         }).then(res.redirect('/'))
     }
@@ -87,8 +92,9 @@ exports.postSignup = (req, res, next) => {
 };
 
 exports.postLogout = (req, res, next) => {
+    req.session.isLoggedIn = false;
     req.session.destroy(err => {
       console.log(err);
-      res.redirect('/');
+      res.redirect('/login');
     });
   };

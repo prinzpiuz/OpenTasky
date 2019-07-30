@@ -7,7 +7,7 @@ var PostgreSqlStore = require('connect-pg-simple')(session);
 
 const app = express();
 
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
 const sequelize = require('./util/db');
@@ -16,7 +16,6 @@ const User = require('./models/user');
 
 app.set('view engine', 'pug');
 app.set('views', 'templates');
-
 
 app.use(bodyParser.urlencoded({extented: false}));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,13 +35,6 @@ app.use(
     })
 );
 
-app.use('/admin',adminData.routes);
-app.use(userRoutes);
-app.use(authRoutes);
-app.use((req, res, next) => {
-    res.status(404).render('404', { url1: { link: "/", title: "Home" }});
-});
-
 app.use((req, res, next) => {
     if (!req.session.user) {
         return next();
@@ -58,6 +50,13 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     res.locals.isAuthenticated = req.session.isLoggedIn;
     next();
+  });
+
+app.use('/admin', adminRoutes);
+app.use(userRoutes);
+app.use(authRoutes);
+app.use((req, res, next) => {
+    res.status(404).render('404', { url1: { link: "/", title: "Home" }});
 });
 
 Task.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
