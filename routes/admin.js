@@ -1,38 +1,38 @@
 const express = require('express');
 const router = express.Router();
-
+const AdditionalMiddle = require('../middleware/middlewares');
 const taskController = require('../controllers/admin');
 
-router.post('/start', taskController.getTaskStart);
+router.post('/start',AdditionalMiddle.isLogged, taskController.getTaskStart);
 
-router.post('/complete', taskController.getTaskComplete);
+router.post('/complete',AdditionalMiddle.isLogged, taskController.getTaskComplete);
 
-router.get('/add-user', taskController.getAddUser);
+router.get('/add-user',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getAddUser);
 
-router.get('/add-task', taskController.getAddTask);
+router.get('/add-task',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getAddTask);
 
-router.get('/list-users', taskController.getListUser);
+router.get('/list-users',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getListUser);
 
-router.post('/user-added', taskController.getUserAdded);
+router.post('/user-added',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getUserAdded);
 
-router.post('/edit-user-done', taskController.getUserEdit_done);
+router.post('/edit-user-done',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getUserEdit_done);
 
-router.get('/edit/user/:uid',taskController.getUserEdit);
+router.get('/edit/user/:uid',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getUserEdit);
 
-router.post('/assigned', taskController.getTaskAssign);
+router.post('/assigned',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getTaskAssign);
 
-router.get('/user/tasks/:uid', taskController.getAllTaskUser);
+router.get('/user/tasks/:uid',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getAllTaskUser);
 
-router.get('/', taskController.getTaskAssigned);
+router.get('/',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getTaskAssigned);
 
-router.get('/user-detail/:uid', taskController.getUserDetail);
+router.get('/user-detail/:uid',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getUserDetail);
 
-router.get('/details/:uid', taskController.getTaskDetail);
+router.get('/details/:uid',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getTaskDetail);
 
-router.get('/delete/:uid', taskController.getTaskDelete);
+router.get('/delete/:uid',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getTaskDelete);
 
-router.post('/edit-complete', taskController.postEditTask);
+router.post('/edit-complete',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.postEditTask);
 
-router.get('/edit/:uid', taskController.getTaskEdit);
+router.get('/edit/:uid',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getTaskEdit);
 
-exports.routes = router;
+module.exports = router;

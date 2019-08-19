@@ -1,0 +1,8 @@
+block content
+    main
+        h1 Enter email to check wheather you have access to complete SignUp
+        form(method='POST', action=('/checkEmail'))
+            label email
+            input(type='text' name='email')
+            br
+            button(type="submit") check

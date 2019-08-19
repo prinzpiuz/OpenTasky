@@ -10,6 +10,8 @@ html(lang="en")
         header
             nav
                 ul
+                    form(method='POST', action=('/logout'))
+                        button(type="submit") logout
                     if url1
                         li
                             a(href=url1.link) #{url1.title}
