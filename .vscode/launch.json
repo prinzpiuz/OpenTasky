@@ -12,7 +12,7 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}/server.js",
             "restart": true,
-            "runtimeExecutable": "/home/prinzpiuz/node-v10.16.0-linux-x64/bin/nodemon",
+            "runtimeExecutable": "node",
             "console": "integratedTerminal"
 
         }

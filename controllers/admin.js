@@ -60,6 +60,8 @@ exports.getAllTaskUser = (req, res, next) => {
             { model: User, where: { id: req.params.uid } }
         ]
     }).then(task_added => {
+        console.log('task_added', task_added[0].user.name)
+        
         res.render('user-tasks',
             {
                 task_added: task_added,

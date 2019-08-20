@@ -3,9 +3,9 @@ const router = express.Router();
 const AdditionalMiddle = require('../middleware/middlewares');
 const taskController = require('../controllers/admin');
 
-router.post('/start',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getTaskStart);
+router.post('/start',AdditionalMiddle.isLogged, taskController.getTaskStart);
 
-router.post('/complete',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getTaskComplete);
+router.post('/complete',AdditionalMiddle.isLogged, taskController.getTaskComplete);
 
 router.get('/add-user',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getAddUser);
 
