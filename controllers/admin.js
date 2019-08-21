@@ -1,31 +1,75 @@
 const Task = require('../models/task');
 const User = require('../models/user');
+const Project = require('../models/project');
 
 
 
 exports.getAddTask = (req, res, next) => {
     User.findAll().then(users => {
-        res.render('add-task', {
+        Project.findAll().then(projects => {
+            res.render('add-task', {
 
-            users: users,
-            title: "Add Task",
+                users: users,
+                projects: projects,
+                title: "Add Task",
+                edit: false
+            }
+            );
+        });
+        })
+
+
+};
+
+exports.getAddProject = (req, res, next) => {
+        res.render('add-project', {
+            title: "Add Project",
             edit: false
         }
         );
-    });
 
+};
+
+exports.getProject = (req, res, next) => {
+    let project = req.body['project'];
+    let type = req.body['projectType'];
+    Project.create({
+        project: project,
+        type: type
+    })
+    res.render('project-added', {
+        project: project,
+        title: "project-added",
+        url1: { link: "/admin/projects", title: "projects" },
+        url2: { link: "/admin/add-task", title: "Add Task" }
+
+    });
+};
+
+exports.getListProjects = (req, res, next) => {
+    Project.findAll().then(projects => {
+        res.render('projects',
+            {
+                projects: projects,
+                title: "projects",
+                url1: { link: "/admin/add-project", title: "add-project" },
+                url2: { link: "/admin/add-task", title: "Add Task" }
+            });
+    });
 };
 
 exports.getTaskAssign = (req, res, next) => {
     let id = req.body['user-id'];
     let task = req.body['task'];
     let ref = req.body['reference'];
+    let project_id = req.body['project'];
     User.findByPk(id).then(user =>{
         user.createTask({
             userName: user.name,
             task: task,
             reference: ref,
             status: 0,
+            projectId: project_id
         })
         res.render('assign', {
             user: user.name,
@@ -60,8 +104,8 @@ exports.getAllTaskUser = (req, res, next) => {
             { model: User, where: { id: req.params.uid } }
         ]
     }).then(task_added => {
-        console.log('task_added', task_added[0].user.name)
-        
+        console.log('task', task_added);
+
         res.render('user-tasks',
             {
                 task_added: task_added,

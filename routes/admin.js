@@ -11,6 +11,12 @@ router.get('/add-user',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, task
 
 router.get('/add-task',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getAddTask);
 
+router.get('/add-project', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getAddProject);
+
+router.post('/project-assigned', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getProject);
+
+router.get('/projects', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getListProjects);
+
 router.get('/list-users',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getListUser);
 
 router.post('/user-added',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getUserAdded);
