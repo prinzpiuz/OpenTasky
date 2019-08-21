@@ -13,6 +13,8 @@ const authRoutes = require('./routes/auth');
 const sequelize = require('./util/db');
 const Task = require('./models/task');
 const User = require('./models/user');
+const Project = require('./models/project');
+
 
 app.set('view engine', 'pug');
 app.set('views', 'templates');
@@ -61,6 +63,7 @@ app.use((req, res, next) => {
 
 Task.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Task);
+Project.hasMany(Task);
 
 sequelize
     .sync()

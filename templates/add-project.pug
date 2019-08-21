@@ -1,0 +1,19 @@
+extends layouts/base.pug
+
+block content
+    main
+        if edit
+            h1 Edit Project
+        else
+            h1 Add Project
+        form(method='POST', action=(edit ? '/admin/edit-project-complete':'/admin/project-assigned'))
+            label Project Name
+            input(type='text' name='project' value=(edit ? project.project : ''))
+            br
+            label Type
+            select(name='projectType')
+                    option(value=0) internal
+                    option(value=1) external
+                    option(value=2) poc
+            br
+            button(type="submit") Submit

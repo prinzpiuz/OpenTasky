@@ -12,6 +12,11 @@ block content
                 each user in users
                     option(value=user.id) #{user.name}
             br
+            label select project
+            select(name='project')
+                each project in projects
+                    option(value=project.id) #{project.project}
+            br
             label Today's Task
             input(type='text' name='task' value=(edit ? task.task : ''))
             br

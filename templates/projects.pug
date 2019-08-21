@@ -1,0 +1,19 @@
+extends layouts/base.pug
+
+block content
+    main
+        h1 Projects
+        table(border=1)
+            tr
+                th projects
+                th type
+            each project in projects
+                tr
+                    td #{project.project}
+                    if project.type == 0
+                        td internal
+                    if project.type == 1
+                        td external
+                    if project.type == 2
+                        td POC
+
