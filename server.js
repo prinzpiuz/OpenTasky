@@ -63,10 +63,9 @@ app.use((req, res, next) => {
 
 Task.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Task);
-Project.hasMany(Task);
 
 sequelize
-    .sync()
+    .sync({force:true})
     .then(result => {
         app.listen(3000);
         User.findAll({
