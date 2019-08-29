@@ -17,6 +17,8 @@ router.post('/project-assigned', AdditionalMiddle.isLogged, AdditionalMiddle.isA
 
 router.get('/projects', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getListProjects);
 
+router.get('/delete_project/:pid',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.deleteProject);
+
 router.get('/list-users',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getListUser);
 
 router.post('/user-added',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getUserAdded);

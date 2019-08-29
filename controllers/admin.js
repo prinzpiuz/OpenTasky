@@ -22,23 +22,31 @@ exports.getAddTask = (req, res, next) => {
 };
 
 exports.getAddProject = (req, res, next) => {
+    User.findAll().then(users => {
         res.render('add-project', {
+            users: users,
             title: "Add Project",
             edit: false
         }
         );
+    })
 
 };
 
 exports.getProject = (req, res, next) => {
-    let project = req.body['project'];
+    let project_name = req.body['project'];
     let type = req.body['projectType'];
+    let users = req.body['users'];
+    console.log('users', users)
+
     Project.create({
-        project: project,
+        project: project_name,
         type: type
+    }).then(project => {
+        project.addUsers(users);
     })
     res.render('project-added', {
-        project: project,
+        project: project_name,
         title: "project-added",
         url1: { link: "/admin/projects", title: "projects" },
         url2: { link: "/admin/add-task", title: "Add Task" }
@@ -48,6 +56,9 @@ exports.getProject = (req, res, next) => {
 
 exports.getListProjects = (req, res, next) => {
     Project.findAll().then(projects => {
+        projects[1].getUsers().then(users=>{
+            console.log('users', users);
+        })
         res.render('projects',
             {
                 projects: projects,
@@ -56,6 +67,15 @@ exports.getListProjects = (req, res, next) => {
                 url2: { link: "/admin/add-task", title: "Add Task" }
             });
     });
+};
+
+exports.deleteProject = (req, res, next) => {
+    id = req.params.pid;
+    Project.findByPk(id).then(project =>{
+        project.destroy();
+    }).then(
+        res.redirect('/admin/projects')
+    );
 };
 
 exports.getTaskAssign = (req, res, next) => {

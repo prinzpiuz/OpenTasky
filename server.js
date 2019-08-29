@@ -61,11 +61,13 @@ app.use((req, res, next) => {
     res.status(404).render('404', { url1: { link: "/", title: "Home" }});
 });
 
-Task.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
-User.hasMany(Task);
+Project.belongsToMany(User, {through: 'UserProject'});
+User.belongsToMany(Project, {through: 'UserProject'});
+Task.belongsTo(Project, { constraints: true, onDelete: 'CASCADE' });
+Project.hasMany(Task);
 
 sequelize
-    .sync({force:true})
+    .sync()
     .then(result => {
         app.listen(3000);
         User.findAll({

@@ -10,6 +10,12 @@ block content
             label Project Name
             input(type='text' name='project' value=(edit ? project.project : ''))
             br
+            label Select Users (Multiple selectable)
+            br
+            select(name='users', multiple)
+                each user in users
+                    option(type="checkbox", value=user.id) #{user.name}
+            br
             label Type
             select(name='projectType')
                     option(value=0) internal

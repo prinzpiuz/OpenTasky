@@ -7,13 +7,15 @@ block content
             tr
                 th projects
                 th type
+                th action
             each project in projects
                 tr
                     td #{project.project}
                     if project.type == 0
                         td internal
                     if project.type == 1
-                        td external
+                        td client
                     if project.type == 2
                         td POC
-
+                    td
+                        a(href='/admin/delete_project/' + project.id) delete
