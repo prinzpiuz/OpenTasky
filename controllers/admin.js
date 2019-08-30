@@ -5,20 +5,15 @@ const Project = require('../models/project');
 
 
 exports.getAddTask = (req, res, next) => {
-    User.findAll().then(users => {
         Project.findAll().then(projects => {
             res.render('add-task', {
 
-                users: users,
                 projects: projects,
                 title: "Add Task",
                 edit: false
             }
             );
         });
-        })
-
-
 };
 
 exports.getAddProject = (req, res, next) => {
@@ -56,9 +51,6 @@ exports.getProject = (req, res, next) => {
 
 exports.getListProjects = (req, res, next) => {
     Project.findAll().then(projects => {
-        projects[1].getUsers().then(users=>{
-            console.log('users', users);
-        })
         res.render('projects',
             {
                 projects: projects,
@@ -68,6 +60,26 @@ exports.getListProjects = (req, res, next) => {
             });
     });
 };
+
+exports.getProjectUsers = (req, res, next) => {
+    Project.findByPk(req.params.pid).then(project => {
+        var message = [];
+        project.getUsers().then(users => {
+            for(var i = 0; i < users.length; i++){
+                data = { 'id': users[i].id,
+                    'name': users[i].name
+            }
+                message.push(data);
+            }
+        }).then(() => {
+            res.status(200).json({ 'message': message });
+        }
+
+        );
+    });
+};
+
+
 
 exports.deleteProject = (req, res, next) => {
     id = req.params.pid;
@@ -79,25 +91,29 @@ exports.deleteProject = (req, res, next) => {
 };
 
 exports.getTaskAssign = (req, res, next) => {
+
     let id = req.body['user-id'];
     let task = req.body['task'];
     let ref = req.body['reference'];
     let project_id = req.body['project'];
-    User.findByPk(id).then(user =>{
-        user.createTask({
-            userName: user.name,
-            task: task,
-            reference: ref,
-            status: 0,
-            projectId: project_id
+
+    Project.findByPk(project_id).then(project =>{
+    User.findByPk(id).then(user => {
+            project.createTask({
+                task: task,
+                reference: ref,
+                status: 0,
+                userID: id,
+                userName: user.name
         })
-        res.render('assign', {
-            user: user.name,
-            task: task,
-            title: "Assign",
-            url1: { link: "/admin", title: "users" },
-            url2: { link: "/admin/add-task", title: "Add Task" }
+            res.render('assign', {
+                user: user.name,
+                task: task,
+                title: "Assign",
+                url1: { link: "/admin", title: "users" },
+                url2: { link: "/admin/add-task", title: "Add Task" }
         });
+        })
     })
     .catch(err => {
         console.log(err);
@@ -120,12 +136,8 @@ exports.getTaskAssigned = (req, res, next) => {
 
 exports.getAllTaskUser = (req, res, next) => {
     Task.findAll({
-        include: [
-            { model: User, where: { id: req.params.uid } }
-        ]
+        where:{userID:req.params.uid}
     }).then(task_added => {
-        console.log('task', task_added);
-
         res.render('user-tasks',
             {
                 task_added: task_added,
@@ -201,7 +213,7 @@ exports.getTaskDelete = (req, res, next) => {
     Task.findByPk(id).then(task =>{
         task.destroy();
     }).then(
-        res.redirect('/')
+        res.redirect('/admin/user/tasks/'+id)
     );
 };
 

@@ -43,4 +43,8 @@ router.post('/edit-complete',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin
 
 router.get('/edit/:uid',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getTaskEdit);
 
+//ajax
+
+router.get('/get_users/:pid', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getProjectUsers);
+
 module.exports = router;

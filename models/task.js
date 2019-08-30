@@ -16,6 +16,7 @@ const Task = sequelize.define('task', {
     start_date: Sequelize.DATE,
     completed_date: Sequelize.DATE,
     userName: Sequelize.STRING,
+    userID: Sequelize.INTEGER,
     task: Sequelize.STRING,
     reference: {
         type: Sequelize.STRING,

@@ -3,11 +3,9 @@ const User = require('../models/user');
 
 exports.getUserDetail = (req, res, next) => {
     Task.findAll({
-        include: [
-            { model: User, where: { id: req.session.user[0].id } }
-        ]
+         where: { id: req.session.user[0].id }
     }).then(tasks => {
-    res.render('user-home', { 
+    res.render('user-home', {
         title: "User",
         user: req.session.user[0],
         tasks:tasks,

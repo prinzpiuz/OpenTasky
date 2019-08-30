@@ -2,7 +2,7 @@ extends layouts/base.pug
 
 block content
     main
-        h1.text_center Task Assigned for #{task_added[0].user.name}
+        h1.text_center Task Assigned for
         if task_added
             table(border=1)
                 tr
@@ -23,13 +23,13 @@ block content
                         if task.status == 0
                             td
                                 form(method='POST', action=('/admin/start'))
-                                    input(type='hidden' name='userId' value=(task.userId))
+                                    input(type='hidden' name='userId' value=(task.userID))
                                     input(type='hidden' name='taskId' value=(task.id))
                                     button(type="submit") start
                         else if task.status == 1
                             td
                                 form(method='POST', action=('/admin/complete'))
-                                    input(type='hidden' name='userId' value=(task.userId))
+                                    input(type='hidden' name='userId' value=(task.userID))
                                     input(type='hidden' name='taskId' value=(task.id))
                                     button(type="submit") complete
                         else

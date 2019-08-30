@@ -2,21 +2,19 @@ extends layouts/base.pug
 
 block content
     main
-        script(type="text/javascript", src='/js/listProjectUser.js')
         if edit
-            h1 Edit Task
+            h1.text_center Edit Task
         else
-            h1 Assign Task
+            h1.text_center Assign Task
         form(method='POST', action=(edit ? '/admin/edit-complete':'/admin/assigned'))
-            label select user
-            select(name='user-id')
-                each user in users
-                    option(value=user.id) #{user.name}
-            br
             label select project
             select(name='project')
                 each project in projects
-                    option(value=project.id) #{project.project}
+                    option(onclick='getUsers(this)' value=project.id) #{project.project}
+            br
+            div(id='user_select_div').hide
+                label select user to assign task
+                select(id='user_select', name='user-id')
             br
             label Today's Task
             input(type='text' name='task' value=(edit ? task.task : ''))
@@ -26,3 +24,4 @@ block content
             br
             input(type='hidden' name='id' value=(edit ? task.id : ''))
             button(type="submit") Submit
+        script(type="text/javascript", src='/js/listProjectUser.js')
