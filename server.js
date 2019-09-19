@@ -67,6 +67,7 @@ Task.belongsTo(Project, { constraints: true, onDelete: 'CASCADE' });
 Project.hasMany(Task);
 
 sequelize
+    // .sync({force:true})
     .sync()
     .then(result => {
         app.listen(3000);

@@ -2,17 +2,19 @@ extends layouts/base.pug
 
 block content
     main
-        h1.text_center Task Assigned for
-        if task_added
+        if task_added[0]
+            h1.text_center Task Assigned for #{task_added[0].userName}
             table(border=1)
                 tr
                     th tasks
+                    th project
                     th start-date
                     th status
                     th action
                 each task in task_added
                     tr
                         td #{task.task}
+                        td #{task.projectName}
                         td #{task.start_date}
                         if task.status == 0
                             td not-started

@@ -13,7 +13,7 @@ router.get('/add-task',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, task
 
 router.get('/add-project', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getAddProject);
 
-router.post('/project-assigned', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getProject);
+router.post('/project-assigned', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getPostAddProject);
 
 router.get('/projects', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getListProjects);
 

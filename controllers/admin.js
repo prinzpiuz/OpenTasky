@@ -16,6 +16,29 @@ exports.getAddTask = (req, res, next) => {
         });
 };
 
+exports.getTaskEdit = (req, res, next) => {
+    const edit = req.query.edit;
+    const id = req.params.uid;
+    Task.findByPk(id).then( task => {
+        Project.findAll().then(projects => {
+            res.render('add-task',
+                {
+                    projects: projects,
+                    edit: edit,
+                    task: task,
+                    tittle: "Edit Task",
+                    url1: {
+                        link: "/admin/",
+                        title: "Go back"
+                    }
+                }
+            );
+        })
+    });
+
+};
+
+
 exports.getAddProject = (req, res, next) => {
     User.findAll().then(users => {
         res.render('add-project', {
@@ -28,7 +51,7 @@ exports.getAddProject = (req, res, next) => {
 
 };
 
-exports.getProject = (req, res, next) => {
+exports.getPostAddProject = (req, res, next) => {
     let project_name = req.body['project'];
     let type = req.body['projectType'];
     let users = req.body['users'];
@@ -121,6 +144,23 @@ exports.getTaskAssign = (req, res, next) => {
 
 };
 
+exports.postEditTask = (req, res, next) => {
+    let id = req.body['user-id'];
+    let task = req.body['task'];
+    let ref = req.body['reference'];
+    let task_id = req.body['id'];
+    User.findByPk(id).then(user => {
+        Task.findByPk(task_id).then(taskEdit => {
+        taskEdit.userID = user.id;
+        taskEdit.userName = user.name;
+        taskEdit.task = task;
+        taskEdit.reference = ref;
+        return taskEdit.save();
+    })}).then(
+        res.redirect('/admin')
+    );
+        };
+
 exports.getTaskAssigned = (req, res, next) => {
     User.findAll().then(user => {
         res.render('admin',
@@ -134,59 +174,36 @@ exports.getTaskAssigned = (req, res, next) => {
     });
 };
 
+
 exports.getAllTaskUser = (req, res, next) => {
     Task.findAll({
         where:{userID:req.params.uid}
     }).then(task_added => {
-        res.render('user-tasks',
-            {
-                task_added: task_added,
-                title: "Admin",
-                url1: { link: "/admin/add-user", title: "add-user" },
-                url2: { link: "/admin/add-task", title: "Add Task" },
-                url3: { link: "/admin/list-users", title: "List users" }
-            });
-    });
-};
-
-exports.getTaskEdit = (req, res, next) => {
-    const edit = req.query.edit;
-    const id = req.params.uid;
-    Task.findByPk(id).then( task => {
-        User.findAll().then(user => {
-            res.render('add-task',
-                {
-                    users: user,
-                    edit: edit,
-                    task: task,
-                    tittle: "Edit Task",
-                    url1: {
-                        link: "/admin/",
-                        title: "Go back"
-                    }
-                }
-            );
+        var promises = [];
+        for(var i = 0; i<task_added.length;i++){
+            promises.push(task_added[i].getProject());
+        }
+        Promise.all(promises).then(promise => {
+            for(i=0;i<promise.length;i++){
+                task_added[i].projectName = promise[i].project
+            }
+                return task_added;
+        }).then(task_added => {
+            res.render('user-tasks',
+        {
+            task_added: task_added,
+            title: "Admin",
+            url1: { link: "/admin/add-user", title: "add-user" },
+            url2: { link: "/admin/add-task", title: "Add Task" },
+            url3: { link: "/admin/list-users", title: "List users" }
         })
-    });
-
-};
-
-exports.postEditTask = (req, res, next) => {
-    let id = req.body['user-id'];
-    let task = req.body['task'];
-    let ref = req.body['reference'];
-    let task_id = req.body['id'];
-    User.findByPk(id).then(user => {
-        Task.findByPk(task_id).then(taskEdit => {
-        taskEdit.userId = user.id;
-        taskEdit.userName = user.name;
-        taskEdit.task = task;
-        taskEdit.ref = ref;
-        return taskEdit.save();
-    })}).then(
-        res.redirect('/admin')
-    );
-        };
+    }
+        ).catch(err => {
+            console.log(err);
+        });
+        
+})
+}
 
 exports.getTaskDetail = (req, res, next) => {
     id = req.params.uid;
