@@ -202,8 +202,8 @@ exports.getAllTaskUser = (req, res, next) => {
             console.log(err);
         });
         
-})
-}
+});
+};
 
 exports.getTaskDetail = (req, res, next) => {
     id = req.params.uid;

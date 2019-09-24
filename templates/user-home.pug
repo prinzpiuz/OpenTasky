@@ -2,18 +2,20 @@ extends layouts/base.pug
 
 block content
     main
-        h1 Hi #{user.name}
+        h1.text_center Hi #{user.name}
         h2.text_center Your tasks
         if tasks
             table(border=1)
                 tr
                     th tasks
+                    th project
                     th start-date
                     th status
                     th action
                 each task in tasks
                     tr
                         td #{task.task}
+                        td #{task.projectName}
                         td #{task.start_date}
                         if task.status == 0
                             td not-started

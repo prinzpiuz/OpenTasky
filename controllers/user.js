@@ -3,13 +3,27 @@ const User = require('../models/user');
 
 exports.getUserDetail = (req, res, next) => {
     Task.findAll({
-         where: { id: req.session.user[0].id }
+         where: { userID: req.session.user[0].id }
     }).then(tasks => {
-    res.render('user-home', {
-        title: "User",
-        user: req.session.user[0],
-        tasks:tasks,
-        url1: { link: "/login", title: "login" }});
+        var promises = [];
+        for(var i = 0; i<tasks.length;i++){
+            promises.push(tasks[i].getProject());
+        }
+        Promise.all(promises).then(promise => {
+            for(i=0;i<promise.length;i++){
+                tasks[i].projectName = promise[i].project
+            }
+
+                return tasks;
+            }).then(tasks =>{
+                res.render('user-home', {
+                    title: "User",
+                    user: req.session.user[0],
+                    tasks:tasks,
+                    url1: { link: "/login", title: "login" }});
+            }).catch(err => {
+                console.log(err);
+            });
     });
 };
 
