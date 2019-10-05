@@ -1,0 +1,89 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+
+
+h1 {
+  @apply font-bold text-3xl;
+}
+
+a,
+button {
+  @apply text-teal-500;
+}
+a:hover {
+  @apply text-teal-600 underline;
+}
+
+button:hover {
+  @apply text-teal-600;
+}
+
+.label-input {
+  @apply block font-semibold text-sm mb-2 text-gray-600;
+}
+
+.input {
+  @apply bg-white border border-gray-400 rounded py-2 px-4 block w-full appearance-none leading-normal;
+}
+
+.input:focus {
+  @apply outline-none shadow-outline;
+}
+select.input {
+  min-height: 42px;
+}
+select.input option:disabled {
+  @apply text-gray-500 !important;
+}
+
+.button {
+  @apply text-center rounded no-underline py-2 px-5 bg-teal-500 text-white font-bold inline-block tracking-wider;
+}
+
+.button:hover {
+  @apply bg-teal-600 text-white;
+}
+
+.ot-header-nav ul,
+.ot-header-nav ul li,
+.ot-header-nav ul a,
+.ot-header-nav form {
+  @apply inline-block;
+}
+.ot-header-nav ul li:hover {
+}
+
+.ot-header-nav a,
+.ot-header-nav button {
+  @apply font-semibold mx-2 py-2 px-4 rounded;
+}
+.ot-header-nav a:hover,
+.ot-header-nav button:hover {
+  @apply no-underline bg-gray-200;
+}
+
+.card {
+  @apply max-w-sm w-full mx-auto bg-white shadow-md rounded p-6 mb-4 mt-8;
+}
+.ot-table-wrapper {
+  @apply border-t border-b border-gray-300 overflow-hidden relative;
+}
+.ot-table {
+  @apply w-full text-left;
+}
+.ot-table th {
+  @apply bg-gray-100 font-semibold text-sm p-2 text-gray-800;
+}
+.ot-table td {
+  @apply text-sm p-2 border-t border-gray-300;
+}
+.ot-table .link {
+  @apply text-teal-500;
+}
+.ot-table .link:hover {
+  @apply text-teal-600 underline;
+}

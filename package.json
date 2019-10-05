@@ -22,6 +22,7 @@
     "express-session": "^1.16.2",
     "gulp": "^4.0.2",
     "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.4.0",
     "pg": "^7.11.0",
     "pg-hstore": "^2.3.3",
     "pug": "^2.0.4",

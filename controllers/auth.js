@@ -1,14 +1,14 @@
 const User = require('../models/user');
 
 exports.getLogin = (req, res, next) =>{
-    res.render('auth/login',
-        {title: 'Login',
+    res.render('auth/login', {
+        title: 'Login',
         url1: {
             link: "/checkEmail",
             title: "Register"
-        }
-    }
-    );
+        },
+        authPage: true
+    });
 };
 
 exports.postLogin = (req, res, next) => {
@@ -46,10 +46,15 @@ exports.postLogin = (req, res, next) => {
     };
 
 exports.getCheckEmail = (req, res, next) => {
-        res.render('auth/emailCheck', {
-          title: 'EmailCheck'
-        });
-      };
+    res.render('auth/emailCheck', {
+        title: 'EmailCheck',
+        url1: {
+            link: "/login",
+            title: "Login"
+        },
+        authPage: true
+    });
+};
 
 exports.postCheckEmail = (req, res, next) => {
     const email = req.body['email'];
@@ -66,7 +71,12 @@ exports.postCheckEmail = (req, res, next) => {
         }
         return res.render('auth/signup', {
             title: 'Complete Signup',
-            userId: user[0].id
+            userId: user[0].id,
+            url1: {
+                link: "/login",
+                title: "Login"
+            },
+            authPage: true
           });
     });
 
@@ -88,7 +98,7 @@ exports.postSignup = (req, res, next) => {
     return res.render('auth/signup', {
         title: 'Complete Signup',
         userId: userID
-      });   
+      });
 };
 
 exports.postLogout = (req, res, next) => {

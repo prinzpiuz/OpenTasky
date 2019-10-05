@@ -1,13 +1,14 @@
 extends ../layouts/base.pug
 
 block content
-    main
-        h1 Login
-        form(method='POST', action=('/login'))
-            label email
-            input(type='text' name='email')
-            br
-            label password
-            input(type='text' name='password')
-            br
-            button(type="submit") login
+    main.flex.justify-center
+        div(class="xl_w-3/12 md_w-4/12 w-full").card
+            h1 Welcome
+            form(method='POST', action=('/login'))
+                .my-4
+                    label.label-input Email
+                    input(type='text' name='email').input
+                .my-4
+                    label.label-input Password
+                    input(type='password' name='password').input
+                button(type="submit").button.mt-2 Login

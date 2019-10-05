@@ -1,6 +1,7 @@
 const browsersync = require('browser-sync').create();
 const gulp = require('gulp');
 const postcss = require('gulp-postcss');
+const rename = require('gulp-rename');
 
 
 function server(done) {
@@ -14,12 +15,13 @@ function server(done) {
 }
 
 function watch(done) {
-  gulp.watch('./src/main.css', tailwindBuild);
+  gulp.watch('./src/main.pcss', tailwindBuild);
 }
 
 function tailwindBuild() {
-  return gulp.src('./src/main.css')
+  return gulp.src('./src/main.pcss')
     .pipe( postcss() )
+    .pipe( rename('main.css') )
     .pipe( gulp.dest('./public/css/') );
 }
 

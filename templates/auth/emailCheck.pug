@@ -1,8 +1,11 @@
+extends ../layouts/base.pug
+
 block content
-    main
-        h1 Enter email to check wheather you have access to complete SignUp
-        form(method='POST', action=('/checkEmail'))
-            label email
-            input(type='text' name='email')
-            br
-            button(type="submit") check
+    main.flex.justify-center
+        div(class="xl_w-3/12 md_w-4/12 w-full").card
+            p Enter email to check wheather you have access to complete SignUp
+            form(method='POST', action=('/checkEmail'))
+                .my-4
+                    label.label-input Email
+                    input(type='text' name='email').input
+                button(type="submit").button.mt-4 Check
