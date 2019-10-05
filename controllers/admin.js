@@ -44,7 +44,11 @@ exports.getAddProject = (req, res, next) => {
         res.render('add-project', {
             users: users,
             title: "Add Project",
-            edit: false
+            edit: false,
+            url1: {
+                link: "/admin/projects/",
+                title: "Go back"
+            }
         }
         );
     })
@@ -66,7 +70,7 @@ exports.getPostAddProject = (req, res, next) => {
     res.render('project-added', {
         project: project_name,
         title: "project-added",
-        url1: { link: "/admin/projects", title: "projects" },
+        url1: { link: "/admin/projects", title: "List Projects" },
         url2: { link: "/admin/add-task", title: "Add Task" }
 
     });
@@ -78,7 +82,7 @@ exports.getListProjects = (req, res, next) => {
             {
                 projects: projects,
                 title: "projects",
-                url1: { link: "/admin/add-project", title: "add-project" },
+                url1: { link: "/admin/add-project", title: "Add Project" },
                 url2: { link: "/admin/add-task", title: "Add Task" }
             });
     });

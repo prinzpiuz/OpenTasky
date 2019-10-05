@@ -1,25 +1,25 @@
 extends layouts/base.pug
 
 block content
-    main
+    main.bg-white.mx-auto.mt-10.p-10(class="md_w-6/12")
         if edit
             h1 Edit Project
         else
             h1 Add Project
         form(method='POST', action=(edit ? '/admin/edit-project-complete':'/admin/project-assigned'))
-            label Project Name
-            input(type='text' name='project' value=(edit ? project.project : ''))
-            br
-            label Select Users (Multiple selectable)
-            br
-            select(name='users', multiple)
-                each user in users
-                    option(type="checkbox", value=user.id) #{user.name}
-            br
-            label Type
-            select(name='projectType')
-                    option(value=0) internal
-                    option(value=1) external
-                    option(value=2) poc
-            br
-            button(type="submit") Submit
+            .my-4
+                label.label-input Project Name
+                input(type='text' name='project' value=(edit ? project.project : '')).input
+            .my-4
+                label.label-input Select Users (Multiple selectable)
+                select(name='users', multiple).input
+                    each user in users
+                        option(type="checkbox", value=user.id) #{user.name}
+            .my-4
+                label.label-input Type
+                select(name='projectType').input
+                        option(value=0) Internal
+                        option(value=1) External
+                        option(value=2) PoC
+
+            button(type="submit").button.mt-4 Submit

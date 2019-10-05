@@ -14,7 +14,7 @@ a,
 button {
   @apply text-teal-500;
 }
-a:hover {
+a:not(.button):hover {
   @apply text-teal-600 underline;
 }
 
@@ -67,7 +67,7 @@ select.input option:disabled {
 }
 
 .card {
-  @apply max-w-sm w-full mx-auto bg-white shadow-md rounded p-6 mb-4 mt-8;
+  @apply bg-white shadow-md rounded p-6 mb-4 mt-8;
 }
 .ot-table-wrapper {
   @apply border-t border-b border-gray-300 overflow-hidden relative;

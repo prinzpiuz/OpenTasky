@@ -1,21 +1,24 @@
 extends layouts/base.pug
 
 block content
-    main
+    main.bg-white.mx-auto.mt-10.p-10(class="md_w-8/12")
         h1 Projects
-        table(border=1)
-            tr
-                th projects
-                th type
-                th action
-            each project in projects
-                tr
-                    td #{project.project}
-                    if project.type == 0
-                        td internal
-                    if project.type == 1
-                        td client
-                    if project.type == 2
-                        td POC
-                    td
-                        a(href='/admin/delete_project/' + project.id) delete
+        .ot-table-wrapper.mt-10
+            table.ot-table.table-collapse
+                thead
+                    tr
+                        th Projects
+                        th Type
+                        th Action
+                tbody
+                    each project in projects
+                        tr
+                            td #{project.project}
+                            if project.type == 0
+                                td internal
+                            if project.type == 1
+                                td client
+                            if project.type == 2
+                                td POC
+                            td
+                                a(href='/admin/delete_project/' + project.id) delete
