@@ -7,12 +7,14 @@ const Project = require('../models/project');
 exports.getAddTask = (req, res, next) => {
         Project.findAll().then(projects => {
             res.render('add-task', {
-
                 projects: projects,
                 title: "Add Task",
-                edit: false
-            }
-            );
+                edit: false,
+                url1: {
+                    link: "/admin/",
+                    title: "Go back"
+                }
+            });
         });
 };
 
@@ -26,7 +28,7 @@ exports.getTaskEdit = (req, res, next) => {
                     projects: projects,
                     edit: edit,
                     task: task,
-                    tittle: "Edit Task",
+                    title: "Edit Task",
                     url1: {
                         link: "/admin/",
                         title: "Go back"
@@ -171,9 +173,9 @@ exports.getTaskAssigned = (req, res, next) => {
             {
                 users: user,
                 title: "Admin",
-                url1: { link: "/admin/add-user", title: "add-user" },
+                url1: { link: "/admin/add-user", title: "Add User" },
                 url2: { link: "/admin/add-task", title: "Add Task" },
-                url3: { link: "/admin/list-users", title: "List users" }
+                url3: { link: "/admin/list-users", title: "List Users" }
             });
     });
 };
@@ -197,9 +199,9 @@ exports.getAllTaskUser = (req, res, next) => {
         {
             task_added: task_added,
             title: "Admin",
-            url1: { link: "/admin/add-user", title: "add-user" },
+            url1: { link: "/admin/add-user", title: "Add User" },
             url2: { link: "/admin/add-task", title: "Add Task" },
-            url3: { link: "/admin/list-users", title: "List users" }
+            url3: { link: "/admin/list-users", title: "List Users" }
         })
     }
         ).catch(err => {
@@ -241,7 +243,11 @@ exports.getTaskDelete = (req, res, next) => {
 exports.getAddUser = (req, res, next) => {
     res.render('add-user', {
         title: "Add User",
-        edit: false
+        edit: false,
+        url1: {
+            link: "/admin/",
+            title: "Go back"
+        }
     });
 };
 
@@ -259,7 +265,7 @@ exports.getUserAdded = (req, res, next) => {
         res.render('user-added', {
             user: name,
             title: "User-Added",
-            url1: { link: "/admin/list-users", title: "list-users" },
+            url1: { link: "/admin/list-users", title: "List Users" },
             url2: { link: "/admin/add-task", title: "Add Task" }
         })
     );
@@ -271,7 +277,7 @@ exports.getListUser = (req, res, next) => {
             {
                 users: user,
                 title: "users",
-                url1: { link: "/admin/add-user", title: "add-user" },
+                url1: { link: "/admin/add-user", title: "Add User" },
                 url2: { link: "/admin/add-task", title: "Add Task" }
             });
     });
