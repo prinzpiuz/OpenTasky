@@ -1,6 +1,6 @@
 const getUsers = proj => {
     $("#user_select").empty();
-    $("#user_select_div").css("display", "inline-block");
+    $("#user_select_div").removeClass('hidden');
     const projId = proj.parentNode.value;
     fetch('/admin/get_users/' + projId, {
         method: 'GET'
