@@ -1,27 +1,32 @@
 extends layouts/base.pug
 
 block content
-    main
+    main.bg-white.mx-auto.mt-10.p-10(class="md_w-6/12")
         if edit
-            h1.text_center Edit Task
+            h1 Edit Task
         else
-            h1.text_center Assign Task
+            h1 Add Task
         form(method='POST', action=(edit ? '/admin/edit-complete':'/admin/assigned'))
-            label select project
-            select(name='project')
-                each project in projects
-                    option(onclick='getUsers(this)' value=project.id) #{project.project}
-            br
-            div(id='user_select_div').hide
-                label select user to assign task
-                select(id='user_select', name='user-id')
-            br
-            label Today's Task
-            input(type='text' name='task' value=(edit ? task.task : ''))
-            br
-            label Reference
-            input(type='text' name='reference' value=(edit ? task.reference : ''))
-            br
+            .my-4
+                label.label-input In Project
+                select(name='project').input
+                    option(value="" disabled selected) Select project
+                    each project in projects
+                        option(onclick='getUsers(this)' value=project.id) #{project.project}
+
+            #user_select_div.hidden
+                label.label-input Assigned To
+                select(id='user_select', name='user-id').input
+
+            .my-4
+                label.label-input Today's Task
+                input(type='text' name='task' value=(edit ? task.task : '')).input
+            .my-4
+                label.label-input Reference
+                input(type='text' name='reference' value=(edit ? task.reference : '')).input
+
             input(type='hidden' name='id' value=(edit ? task.id : ''))
-            button(type="submit") Submit
+
+            button(type="submit").button.mt-2 Submit
+
         script(type="text/javascript", src='/js/listProjectUser.js')

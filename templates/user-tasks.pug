@@ -1,40 +1,45 @@
 extends layouts/base.pug
 
 block content
-    main
+    main.bg-white.mx-auto.mt-10.p-10.w-full(class="lg_w-8/12")
         if task_added[0]
-            h1.text_center Task Assigned for #{task_added[0].userName}
-            table(border=1)
-                tr
-                    th tasks
-                    th project
-                    th start-date
-                    th status
-                    th action
-                each task in task_added
-                    tr
-                        td #{task.task}
-                        td #{task.projectName}
-                        td #{task.start_date}
-                        if task.status == 0
-                            td not-started
-                        else if task.status == 1
-                            td started on #{task.start_date}
-                        else
-                            td finished on #{task.completed_date}
-                        if task.status == 0
-                            td
-                                form(method='POST', action=('/admin/start'))
-                                    input(type='hidden' name='userId' value=(task.userID))
-                                    input(type='hidden' name='taskId' value=(task.id))
-                                    button(type="submit") start
-                        else if task.status == 1
-                            td
-                                form(method='POST', action=('/admin/complete'))
-                                    input(type='hidden' name='userId' value=(task.userID))
-                                    input(type='hidden' name='taskId' value=(task.id))
-                                    button(type="submit") complete
-                        else
-                            td Change-Status
-                        td
-                            a(href='/admin/details/' + task.id) details
+            h1 Task Assigned for #{task_added[0].userName}
+            .ot-table-wrapper.mt-10
+                table.ot-table.table-collapse
+                    thead
+                        tr
+                            th Tasks
+                            th Project
+                            th Start Date
+                            th Status
+                            th(colspan=2) Action
+                    tbody
+                        each task in task_added
+                            tr
+                                td #{task.task}
+                                td #{task.projectName}
+                                td #{task.start_date}
+                                if task.status == 0
+                                    td not-started
+                                else if task.status == 1
+                                    td started on #{task.start_date}
+                                else
+                                    td finished on #{task.completed_date}
+                                if task.status == 0
+                                    td
+                                        form(method='POST', action=('/admin/start'))
+                                            input(type='hidden' name='userId' value=(task.userID))
+                                            input(type='hidden' name='taskId' value=(task.id))
+                                            button(type="submit") start
+                                else if task.status == 1
+                                    td
+                                        form(method='POST', action=('/admin/complete'))
+                                            input(type='hidden' name='userId' value=(task.userID))
+                                            input(type='hidden' name='taskId' value=(task.id))
+                                            button(type="submit") complete
+                                else
+                                    td Change-Status
+                                td
+                                    a(href='/admin/details/' + task.id) details
+        else
+            h1 No Task Assigned

@@ -1,16 +1,19 @@
+extends ../layouts/base.pug
+
 block content
-    main
-        h1 Complete Signup
-        form(method='POST', action=('/signup'))
-            label username
-            input(type='text' name='name')
-            br
-            label password
-            input(type='text' name='password1')
-            br
-            label RepeatPassword
-            input(type='text' name='password2')
-            br
-            input(type='hidden' name='id' value=(userId))
-            br
-            button(type="submit") Complete Signup
+    main.flex.justify-center
+        div(class="xl_w-3/12 md_w-4/12 w-full").card
+            h1 Complete Signup
+            form(method='POST', action=('/signup'))
+                .my-4
+                    label.label-input Username
+                    input(type='text' name='name').input
+                .my-4
+                    label.label-input Password
+                    input(type='text' name='password1').input
+                .my-4
+                    label.label-input Repeat Password
+                    input(type='text' name='password2').input
+                
+                input(type='hidden' name='id' value=(userId))
+                button(type="submit").button.mt-4 Complete Signup

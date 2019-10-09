@@ -1,22 +1,22 @@
 extends layouts/base.pug
 
 block content
-    main
+    main.bg-white.mx-auto.mt-10.p-10.w-full(class="lg_w-4/12")
         if edit
             h1 Edit User
         else
             h1 Add User
         form(method='POST', action=(edit ? '/admin/edit-user-done':'/admin/user-added'))
-            label name
-            input(type='text' name='name' value=(edit ? users.name : ''))
-            br
-            label email
-            input(type='text' name='email' value=(edit ? users.email : ''))
-            br
-            label role
-                select(name="role")
-                    option(value=0) user
-                    option(value=1) admin
-            input(type='hidden' name='id' value=(edit ? users.id : ''))
-            br
-            button(type="submit") Submit
+            .my-4
+                label.label-input Name
+                input(type='text' name='name' value=(edit ? users.name : '')).input
+            .my-4
+                label.label-input Email
+                input(type='text' name='email' value=(edit ? users.email : '')).input
+            .my-4
+                label.label-input Role
+                select(name="role").input
+                    option(value=0) User
+                    option(value=1) Admin
+            input(type='hidden' name='id' value=(edit ? users.id : '')).input
+            button(type="submit").button.mt-4 Submit

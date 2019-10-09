@@ -8,12 +8,10 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
         if title
             title #{title}
-    body
-        header
-            nav
-                ul
-                    form(method='POST', action=('/logout'))
-                        button(type="submit") logout
+    body.flex.flex-col.h-full.bg-gray-100
+        header.bg-white.border-b.py-4
+            nav(class="lg_w-8/12").ot-header-nav.mx-auto.flex.justify-between.flex-col.md_flex-row
+                ul.inline-block
                     if url1
                         li
                             a(href=url1.link) #{url1.title}
@@ -23,4 +21,8 @@ html(lang="en")
                     if url3
                         li
                             a(href=url3.link) #{url3.title}
+                if !authPage
+                    form(method='POST', action=('/logout'))
+                        button(type="submit") Logout
+
         block content

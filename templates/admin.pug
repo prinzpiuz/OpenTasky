@@ -1,13 +1,16 @@
 extends layouts/base.pug
 
 block content
-    main
+    main.bg-white.mx-auto.mt-10.p-10.w-full(class="lg_w-8/12")
         h1 Task Assigned
-        table
-            tr
-                th user
-            each user in users
-                tr
-                    td #{user.name}
-                    td
-                        a(href='/admin/user/tasks/' + user.id) Tasks
+        .ot-table-wrapper.mt-10
+            table.ot-table.table-collapse
+                thead
+                    tr
+                        th(colspan=2) User
+                tbody
+                    each user in users
+                        tr
+                            td #{user.name}
+                            td
+                                a(href='/admin/user/tasks/' + user.id) Tasks

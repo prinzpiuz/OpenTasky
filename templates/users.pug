@@ -1,15 +1,19 @@
 extends layouts/base.pug
 
 block content
-    main
+    main.bg-white.mx-auto.mt-10.p-10.w-full(class="lg_w-8/12")
         h1 Users
-        table
-            tr
-                th user
-                th email
-            each user in users
-                tr
-                    td #{user.name}
-                    td #{user.email}
-                    td
-                        a(href='/admin/user-detail/' + user.id) details
+        .ot-table-wrapper.mt-10
+            table.ot-table
+                thead
+                    tr
+                        th Name
+                        th Email
+                        th Action
+                tbody
+                    each user in users
+                        tr
+                            td #{user.name}
+                            td #{user.email}
+                            td
+                                a(href='/admin/user-detail/' + user.id) details
