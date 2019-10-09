@@ -11,6 +11,7 @@ const adminRoutes = require('./routes/admin');
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
 const sequelize = require('./util/db');
+const Session = require('./models/session'); // This should automatically create session table if not found.
 const Task = require('./models/task');
 const User = require('./models/user');
 const Project = require('./models/project');
