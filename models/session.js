@@ -3,22 +3,25 @@ const Sequelize = require('sequelize');
 const sequelize = require('../util/db');
 
 const Session = sequelize.define('session', {
-    id: {
+    sid: {
         type: Sequelize.STRING,
-        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    type: {
-        type: Sequelize.INTEGER,
+    sess: {
+        type: Sequelize.JSON,
         allowNull: false
     },
-    project: Sequelize.STRING
+    expire: {
+        type: Sequelize.DATE,
+        allowNull: false,
+    }
+},{
+    timestamps: false,
+    freezeTableName: true,
 });
 
 module.exports = Session;
 
-//type
-//0=internal
-//1=external
-//2=proof of concept
+
+
