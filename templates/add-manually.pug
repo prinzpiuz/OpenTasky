@@ -1,0 +1,31 @@
+extends layouts/base.pug
+
+block content
+    main.bg-white.mx-auto.mt-10.p-10.w-full(class="lg_w-4/12")
+        h1 Add time manaully
+        form(method='POST', action=('/add_manually'))
+            div(id="div")
+                .my-4(id="1")
+                    label.label-input Date
+                    input(id="date" type='date' name='date').input
+                    label.label-input  Start Hour
+                    select(id="StartHour" name="StartHour").input
+                        - for(var i=0;i<24;i++)
+                            option(value=i) #{i}
+                    label.label-input  Minute
+                    select(id="StartMin" name="StartMin").input
+                        - for(var i=0;i<60;i++)
+                            option(value=i) #{i}
+                    label.label-input  End Hour
+                    select(id="EndHour" name="EndHour").input
+                        - for(var i=0;i<24;i++)
+                            option(value=i) #{i}
+                    label.label-input  Minute
+                    select(id="EndMin" name="EndMin").input
+                        - for(var i=0;i<60;i++)
+                            option(value=i) #{i}            
+        input(id="task_id" type='hidden' name='taskId' value=(task_id)).input
+        button(onclick='sendDate(this)').button.mt-4 Submit
+        br
+        button(onclick='copyDiv(this)').button.mt-4 Add Another Date
+        script(type="text/javascript", src='/js/add_manually.js')

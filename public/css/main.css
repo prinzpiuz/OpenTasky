@@ -8387,7 +8387,7 @@ button:hover {
 }
 
 select.input {
-  min-height: 42px;
+  min-height: 33px;
 }
 
 select.input option:disabled {
