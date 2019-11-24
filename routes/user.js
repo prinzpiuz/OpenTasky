@@ -9,6 +9,12 @@ router.post('/task-start',AdditionalMiddle.isLogged, user.getTaskStart);
 
 router.post('/task-complete',AdditionalMiddle.isLogged, user.getTaskComplete);
 
+router.post('/task-pause',AdditionalMiddle.isLogged, user.getPauseTask);
+
+router.post('/task-resume',AdditionalMiddle.isLogged, user.getResumeTask);
+
 router.get('/task-detail/:uid',AdditionalMiddle.isLogged, user.getTaskDetail);
+
+router.get('/timesheet', AdditionalMiddle.isLogged, user.getTimesheet);
 
 module.exports = router;

@@ -1,0 +1,25 @@
+extends layouts/base.pug
+
+block content
+    main.bg-white.mx-auto.mt-10.p-10.w-full(class="lg_w-8/12")
+        if timesheets
+            h1 TimeSheet For #{username}
+            .ot-table-wrapper.mt-10
+                table.ot-table.table-collapse
+                    thead
+                        tr
+                            th Date
+                            th Project
+                            th Task
+                            th Time taken
+                            th Remarks
+                    tbody
+                        each timesheet in timesheets
+                            tr
+                                td #{timesheet.date}
+                                td #{timesheet.project_name}
+                                td #{timesheet.task_name}
+                                td #{timesheet.total_time_taken}
+                                td #{timesheet.remarks}
+        else
+            h1 No TimeSheet Generated Yet

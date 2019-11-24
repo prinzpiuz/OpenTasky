@@ -18,6 +18,7 @@ const Task = sequelize.define('task', {
     userName: Sequelize.STRING,
     userID: Sequelize.INTEGER,
     task: Sequelize.STRING,
+    till_now: Sequelize.FLOAT,
     reference: {
         type: Sequelize.STRING,
         allowNull: false
@@ -30,3 +31,4 @@ module.exports = Task;
 //0=not started
 //1=started
 //2=completed
+//3=paused
