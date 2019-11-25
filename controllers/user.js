@@ -98,7 +98,6 @@ exports.getTaskComplete = (req, res, next) => {
             add_manually = false;
             TimeSheet.findByPk(crct_timesheet.id).then(timesheet => {
               time_diff = completed_date - start_date;
-              total_time = time_diff;
               timesheet.total_time_taken = time_diff / 3600000;
               return timesheet.save();
             });
@@ -106,9 +105,7 @@ exports.getTaskComplete = (req, res, next) => {
             add_manually = true;
           }
           if (add_manually) {
-            console.log("1", "1");
             if (completed_date.getDate() != start_date.getDate()) {
-              console.log("2", "2");
               TimeSheet.findAll({
                 where: {
                   task_id: id,
@@ -128,8 +125,8 @@ exports.getTaskComplete = (req, res, next) => {
                     logOutTime = utils.logOutTime(start_date);
                     time_diff = logOutTime - start_date;
                     timesheet.total_time_taken = time_diff / 3600000;
+                    total_time = completed_date - start_date;
                     remaining_time = total_time - time_diff;
-                    console.log("total_time", total_time);
                     return timesheet.save();
                   });
                 })
