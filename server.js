@@ -21,6 +21,7 @@ app.set("views", "templates");
 
 app.use(bodyParser.urlencoded({ extented: false }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(bodyParser.json()); // application/json
 
 app.use(
   session({

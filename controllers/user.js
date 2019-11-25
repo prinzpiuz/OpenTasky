@@ -70,6 +70,7 @@ exports.getTaskComplete = (req, res, next) => {
   let id = req.body["taskId"];
   var crct_timesheet;
   var add_manually;
+  var total_time;
   Task.findByPk(id)
     .then(task => {
       task.status = 2;
@@ -97,6 +98,7 @@ exports.getTaskComplete = (req, res, next) => {
             add_manually = false;
             TimeSheet.findByPk(crct_timesheet.id).then(timesheet => {
               time_diff = completed_date - start_date;
+              total_time = time_diff;
               timesheet.total_time_taken = time_diff / 3600000;
               return timesheet.save();
             });
@@ -104,7 +106,9 @@ exports.getTaskComplete = (req, res, next) => {
             add_manually = true;
           }
           if (add_manually) {
+            console.log("1", "1");
             if (completed_date.getDate() != start_date.getDate()) {
+              console.log("2", "2");
               TimeSheet.findAll({
                 where: {
                   task_id: id,
@@ -125,11 +129,12 @@ exports.getTaskComplete = (req, res, next) => {
                     time_diff = logOutTime - start_date;
                     timesheet.total_time_taken = time_diff / 3600000;
                     remaining_time = total_time - time_diff;
+                    console.log("total_time", total_time);
                     return timesheet.save();
                   });
                 })
                 .then(
-                  res.render("add_manually", {
+                  res.render("add-manually", {
                     task_id: id,
                     title: "add time manually"
                   })
@@ -201,7 +206,7 @@ exports.getPauseTask = (req, res, next) => {
             }
           }
           if (add_manually) {
-            res.render("add_manually", {
+            res.render("add-manually", {
               remaining_time: remaining_time / 3600000,
               task_id: id,
               title: "add time manually"
@@ -257,5 +262,35 @@ exports.getTimesheet = (req, res, next) => {
         title: "Tasks"
       }
     });
+  });
+};
+
+exports.getAddManual = (req, res, next) => {
+  data = req.body;
+  task_id = req.body.task_id;
+  delete data.task_id;
+  for (let key in data) {
+    Task.findByPk(task_id).then(task => {
+      task
+        .getProject()
+        .then(project => {
+          return project;
+        })
+        .then(project => {
+          User.findByPk(req.session.user[0].id).then(user => {
+            task.createTimesheet({
+              task_name: task.task,
+              task_id: task.id,
+              project_name: project.project,
+              date: new Date(key),
+              total_time_taken: parseFloat(data[key]),
+              userId: user.id
+            });
+          });
+        });
+    });
+  }
+  res.status(200).json({
+    message: "Time added successfully!"
   });
 };
