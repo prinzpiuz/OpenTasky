@@ -21,4 +21,5 @@ block content
                             if project.type == 2
                                 td POC
                             td
-                                a(href='/admin/delete_project/' + project.id) delete
+                                a(href='/admin/delete_project/' + project.id) delete |
+                                a(href='/admin/project/add-users/' + project.id + '/?edit=true') edit

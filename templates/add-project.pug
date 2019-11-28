@@ -6,7 +6,7 @@ block content
             h1 Edit Project
         else
             h1 Add Project
-        form(method='POST', action=(edit ? '/admin/edit-project-complete':'/admin/project-assigned'))
+        form(method='POST', action=(edit ? '/admin//editProject':'/admin/project-assigned'))
             .my-4
                 label.label-input Project Name
                 input(type='text' name='project' value=(edit ? project.project : '')).input
@@ -21,5 +21,5 @@ block content
                         option(value=0) Internal
                         option(value=1) External
                         option(value=2) PoC
-
+            input(type='hidden' name='projectId' value=(edit ? project.id : ''))
             button(type="submit").button.mt-4 Submit

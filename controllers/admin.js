@@ -5,23 +5,23 @@ const Project = require('../models/project');
 
 
 exports.getAddTask = (req, res, next) => {
-        Project.findAll().then(projects => {
-            res.render('add-task', {
-                projects: projects,
-                title: "Add Task",
-                edit: false,
-                url1: {
-                    link: "/admin/",
-                    title: "Go back"
-                }
-            });
+    Project.findAll().then(projects => {
+        res.render('add-task', {
+            projects: projects,
+            title: "Add Task",
+            edit: false,
+            url1: {
+                link: "/admin/",
+                title: "Go back"
+            }
         });
+    });
 };
 
 exports.getTaskEdit = (req, res, next) => {
     const edit = req.query.edit;
     const id = req.params.uid;
-    Task.findByPk(id).then( task => {
+    Task.findByPk(id).then(task => {
         Project.findAll().then(projects => {
             res.render('add-task',
                 {
@@ -41,21 +41,40 @@ exports.getTaskEdit = (req, res, next) => {
 };
 
 
-exports.getAddProject = (req, res, next) => {
-    User.findAll().then(users => {
-        res.render('add-project', {
-            users: users,
-            title: "Add Project",
-            edit: false,
-            url1: {
-                link: "/admin/projects/",
-                title: "Go back"
-            }
+exports.getAddProject = async (req, res, next) => {
+    var edit = req.query.edit;
+    if (!edit) {
+        edit = false;
+    }
+    else {
+        project = await Project.findByPk(req.params.pid)
+    }
+    users = await User.findAll()
+    res.render('add-project', {
+        users: users,
+        title: "Add Project",
+        edit: edit,
+        url1: {
+            link: "/admin/projects/",
+            title: "Go back"
         }
-        );
-    })
+    }
+    );
 
 };
+
+exports.getProjectAddUser = async (req, res, next) => {
+    let project_name = req.body['project'];
+    let type = req.body['projectType'];
+    let users = req.body['users'];
+    let pid = req.body['projectId'];
+    project = await Project.findByPk(pid)
+    project.project = project_name
+    project.type = type
+    project.setUsers(users);
+    projectSave = await project.save()
+    res.redirect('/admin/projects');
+}
 
 exports.getPostAddProject = (req, res, next) => {
     let project_name = req.body['project'];
@@ -94,10 +113,11 @@ exports.getProjectUsers = (req, res, next) => {
     Project.findByPk(req.params.pid).then(project => {
         var message = [];
         project.getUsers().then(users => {
-            for(var i = 0; i < users.length; i++){
-                data = { 'id': users[i].id,
+            for (var i = 0; i < users.length; i++) {
+                data = {
+                    'id': users[i].id,
                     'name': users[i].name
-            }
+                }
                 message.push(data);
             }
         }).then(() => {
@@ -112,7 +132,7 @@ exports.getProjectUsers = (req, res, next) => {
 
 exports.deleteProject = (req, res, next) => {
     id = req.params.pid;
-    Project.findByPk(id).then(project =>{
+    Project.findByPk(id).then(project => {
         project.destroy();
     }).then(
         res.redirect('/admin/projects')
@@ -126,27 +146,27 @@ exports.getTaskAssign = (req, res, next) => {
     let ref = req.body['reference'];
     let project_id = req.body['project'];
 
-    Project.findByPk(project_id).then(project =>{
-    User.findByPk(id).then(user => {
+    Project.findByPk(project_id).then(project => {
+        User.findByPk(id).then(user => {
             project.createTask({
                 task: task,
                 reference: ref,
                 status: 0,
                 userID: id,
                 userName: user.name
-        })
+            })
             res.render('assign', {
                 user: user.name,
                 task: task,
                 title: "Assign",
                 url1: { link: "/admin", title: "users" },
                 url2: { link: "/admin/add-task", title: "Add Task" }
-        });
+            });
         })
     })
-    .catch(err => {
-        console.log(err);
-    });
+        .catch(err => {
+            console.log(err);
+        });
 
 };
 
@@ -157,15 +177,16 @@ exports.postEditTask = (req, res, next) => {
     let task_id = req.body['id'];
     User.findByPk(id).then(user => {
         Task.findByPk(task_id).then(taskEdit => {
-        taskEdit.userID = user.id;
-        taskEdit.userName = user.name;
-        taskEdit.task = task;
-        taskEdit.reference = ref;
-        return taskEdit.save();
-    })}).then(
+            taskEdit.userID = user.id;
+            taskEdit.userName = user.name;
+            taskEdit.task = task;
+            taskEdit.reference = ref;
+            return taskEdit.save();
+        })
+    }).then(
         res.redirect('/admin')
     );
-        };
+};
 
 exports.getTaskAssigned = (req, res, next) => {
     User.findAll().then(user => {
@@ -183,60 +204,60 @@ exports.getTaskAssigned = (req, res, next) => {
 
 exports.getAllTaskUser = (req, res, next) => {
     Task.findAll({
-        where:{userID:req.params.uid}
+        where: { userID: req.params.uid }
     }).then(task_added => {
         var promises = [];
-        for(var i = 0; i<task_added.length;i++){
+        for (var i = 0; i < task_added.length; i++) {
             promises.push(task_added[i].getProject());
         }
         Promise.all(promises).then(promise => {
-            for(i=0;i<promise.length;i++){
+            for (i = 0; i < promise.length; i++) {
                 task_added[i].projectName = promise[i].project
             }
-                return task_added;
+            return task_added;
         }).then(task_added => {
             res.render('user-tasks',
-        {
-            task_added: task_added,
-            title: "Admin",
-            url1: { link: "/admin/add-user", title: "Add User" },
-            url2: { link: "/admin/add-task", title: "Add Task" },
-            url3: { link: "/admin/list-users", title: "List Users" }
-        })
-    }
+                {
+                    task_added: task_added,
+                    title: "Admin",
+                    url1: { link: "/admin/add-user", title: "Add User" },
+                    url2: { link: "/admin/add-task", title: "Add Task" },
+                    url3: { link: "/admin/list-users", title: "List Users" }
+                })
+        }
         ).catch(err => {
             console.log(err);
         });
-        
-});
+
+    });
 };
 
 exports.getTaskDetail = (req, res, next) => {
     id = req.params.uid;
-    Task.findByPk(id).then( task => {
-        if (task === undefined){
+    Task.findByPk(id).then(task => {
+        if (task === undefined) {
             res.status(404).render('404', { url1: { link: "/admin", title: "Go back" } });
         }
         else {
-        res.render('detail', {
-            task: task,
-            title: "Detail",
-            url1: {
-                link: "/admin/",
-                title: "Go back"
-            }
-        });
-    }
+            res.render('detail', {
+                task: task,
+                title: "Detail",
+                url1: {
+                    link: "/admin/",
+                    title: "Go back"
+                }
+            });
+        }
     });
 };
 
 
 exports.getTaskDelete = (req, res, next) => {
     id = req.params.uid;
-    Task.findByPk(id).then(task =>{
+    Task.findByPk(id).then(task => {
         task.destroy();
     }).then(
-        res.redirect('/admin/user/tasks/'+id)
+        res.redirect('/admin/user/tasks/' + id)
     );
 };
 
@@ -306,18 +327,18 @@ exports.getUserEdit = (req, res, next) => {
     const edit = req.query.edit;
     const id = req.params.uid;
     User.findByPk(id).then(user => {
-            res.render('add-user',
-                {
-                    users: user,
-                    edit: edit,
-                    tittle: "Edit User",
-                    url1: {
-                        link: "/admin/list-users",
-                        title: "Go back"
-                    }
+        res.render('add-user',
+            {
+                users: user,
+                edit: edit,
+                tittle: "Edit User",
+                url1: {
+                    link: "/admin/list-users",
+                    title: "Go back"
                 }
-            );
-        });
+            }
+        );
+    });
 };
 
 exports.getUserEdit_done = (req, res, next) => {
@@ -327,10 +348,10 @@ exports.getUserEdit_done = (req, res, next) => {
     let role = req.body['role'];
     User.findByPk(id).then(user => {
         user.name = username;
-            user.role = role;
-            user.email = email;
-            return user.save();
-        }).then(
+        user.role = role;
+        user.email = email;
+        return user.save();
+    }).then(
         res.redirect('/admin/list-users')
     );
 };

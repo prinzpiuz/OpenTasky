@@ -43,6 +43,10 @@ router.post('/edit-complete',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin
 
 router.get('/edit/:uid',AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getTaskEdit);
 
+router.get('/project/add-users/:pid',AdditionalMiddle.isLogged,AdditionalMiddle.isAdmin, taskController.getAddProject);
+
+router.post('/editProject', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getProjectAddUser);
+
 //ajax
 
 router.get('/get_users/:pid', AdditionalMiddle.isLogged, AdditionalMiddle.isAdmin, taskController.getProjectUsers);
